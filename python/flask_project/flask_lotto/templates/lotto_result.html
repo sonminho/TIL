@@ -1,0 +1,10 @@
+<h1>회차 : {{lotto_round}}</h1>
+<h2>당첨 번호 : {{winner}}</h2>
+<h2>나의 번호 : {{result.my_number_list}}</h2>
+<h2>결과 :
+    {% if result.rank == -1 %}꽝
+    {% elif result.rank == -2 %}중복된 수가 있네요?
+    {% else %}{{result.hit_num}}개 맞추셔서 {{result.rank}}등 입니다.
+    {% endif %}<br/><br/>
+<a href="lotto_check">다시하기</a>
+</h2>
