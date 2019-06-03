@@ -1,0 +1,8 @@
+{% extends "base.html" %}<!-- 부모 템플릿 상속 -->
+
+{% block content %}
+    <form action="/pages/catch/">
+        <input type="text" name="message"/>
+        <input type="submit" value="전송"/>
+    </form>
+{% endblock %}
