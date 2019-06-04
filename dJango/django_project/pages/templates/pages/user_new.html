@@ -1,0 +1,10 @@
+{% extends "base.html" %}<!-- 부모 템플릿 상속 -->
+
+{% block content %}
+    <form action="/pages/user_create/" method="POST">
+        {% csrf_token %} <!-- csrf 토큰 생성 -->
+        이름 : <input type="text" name="name">
+        비밀번호 : <input type="password" name="pwd">
+        <input type="submit" value="가입">
+    </form>
+{% endblock %}

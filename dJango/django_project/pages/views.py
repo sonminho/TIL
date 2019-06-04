@@ -8,7 +8,7 @@ import requests
 # Create your views here.
 def index(request):
     pprint(request.META)
-    return render(request, 'index.html')
+    return render(request, 'pages/index.html')
 
 
 def dinner(request):
@@ -16,14 +16,14 @@ def dinner(request):
     pick = random.choice(menus)
     context = dict()
     context['pick'] = pick
-    return render(request, 'dinner.html', context)
+    return render(request, 'pages/dinner.html', context)
 
 
 def hello(request, name):
     context = dict()
     context['name'] = name
 
-    return render(request, 'hello.html', context)
+    return render(request, 'pages/hello.html', context)
 
 
 # 자기소개 / 이름과 나이를 url 로 받아서 추력
@@ -31,7 +31,7 @@ def introduce(request, name, age):
     context = dict()
     context['name'] = name
     context['age'] = age
-    return render(request, 'introduce.html', context)
+    return render(request, 'pages/introduce.html', context)
 
 
 # 숫자 2개를 variable routing 으로 받아 곱셈 결과를 출력
@@ -43,7 +43,7 @@ def times(request, num1, num2):
     context['num2'] = num2
     context['result'] = num1 * num2
 
-    return render(request, 'times.html', context)
+    return render(request, 'pages/times.html', context)
 
 
 # 원의 반지름 값을 variable routing 으로 받아 원의 넓이를 출력
@@ -53,7 +53,7 @@ def area(request, radius):
     context['radius'] = radius
     context['area'] = radius * radius * math.pi
 
-    return render(request, 'area.html', context)
+    return render(request, 'pages/area.html', context)
 
 
 def dtl_example(request):
@@ -70,22 +70,22 @@ def dtl_example(request):
     context['datetimenow'] = datetimenow
     context['empty_list'] = empty_list
 
-    return render(request, 'dtl_example.html', context)
+    return render(request, 'pages/dtl_example.html', context)
 
 
 def throw(request):
-    return render(request, 'throw.html')
+    return render(request, 'pages/throw.html')
 
 
 def catch(request):
     #print(request.GET)
     message = request.GET.get('message')
     context = {'message': message,}
-    return render(request, 'catch.html', context)
+    return render(request, 'pages/catch.html', context)
 
 
 def artii(request):
-    return render(request, 'artii.html')
+    return render(request, 'pages/artii.html')
 
 
 def result(request):
@@ -117,11 +117,11 @@ def result(request):
 
     # 결과를 저장한다.
     # 6. 최종적으로 저장한 데이터를 template 으로 넘겨준다.
-    return render(request, 'result.html', context)
+    return render(request, 'pages/result.html', context)
 
 
 def user_new(request):
-    return render(request, 'user_new.html')
+    return render(request, 'pages/user_new.html')
 
 
 def user_create(request):
@@ -132,7 +132,7 @@ def user_create(request):
         'pwd': pwd,
     }
 
-    return render(request, 'user_create.html', context)
+    return render(request, 'pages/user_create.html', context)
 
 def static_example(request):
-    return render(request, 'static_example.html')
+    return render(request, 'pages/static_example.html')

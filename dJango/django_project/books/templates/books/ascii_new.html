@@ -1,0 +1,15 @@
+
+{% extends 'base.html'%}
+{% block content %}
+    <div class="m-5">
+        <form class="form mt-5" action="/books/ascii_make/">
+            <input class="form-control mt-5" type="text" name="text">
+            <select class="form-control mt-5"  name="font">
+                {% for font in fonts %}
+                    <option value="{{font}}">{{font}}</option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="form-control btn btn-primary mt-5">GO</button>
+        </form>
+    </div>
+{% endblock %}

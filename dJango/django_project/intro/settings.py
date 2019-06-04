@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     # local apps
+    'books.apps.BooksConfig',
     'pages.apps.PagesConfig',
 
     # third party apps
@@ -60,7 +61,7 @@ ROOT_URLCONF = 'intro.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'intro', 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
