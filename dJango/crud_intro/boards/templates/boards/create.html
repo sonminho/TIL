@@ -1,0 +1,16 @@
+{% extends "boards/base.html" %}
+
+{% block content %}
+    <div class="jumbotron mt-5">
+        <h4>게시글 작성</h4><br>
+        <form class="form" action="{% url 'boards:create' %}" method="POST">
+            {% csrf_token %}
+            <input class="form-control mt-5" type="text" name="title" placeholder="글제목">
+            <textarea class="form-control mt-5" rows="5" name="content" placeholder="글내용"></textarea>
+            <div class="d-flex flex-row-reverse mt-5">
+                <button class="btn btn-primary ml-3" type="submit">등록</button>
+                <button class="btn btn-danger" type="button">취소</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}

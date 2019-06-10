@@ -1,29 +1,30 @@
 {% extends 'boards/base.html' %}
 
 {% block content %}
-    <h2>게시글 리스트</h2>
-    <table class="table table-striped mt-5">
-        <thead class="thead-dark">
-            <tr>
-                <th>글 번호</th>
-                <th>글 내용</th>
-                <th>등록일</th>
-                <th>수정일</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for board in boards %}
+    <div class="jumbotron mt-5">
+        <h2>게시글 리스트</h2>
+        <p class="d-flex flex-row-reverse mt-5"><a href="{% url 'boards:create' %}" style="color: black;">글작성</a></p>
+        <table class="table table-striped">
+            <thead class="thead-dark">
                 <tr>
-                    <td>{{board.title}}</td>
-                    <td>{{board.content}}</td>
-                    <td>{{board.created_at}}</td>
-                    <td>{{board.updated_at}}</td>
+                    <th>글 번호</th>
+                    <th>글 제목</th>
+                    <th>글 내용</th>
+                    <th>등록일</th>
+                    <th>수정일</th>
                 </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-
-    <div class="row mt-5">
-        <p><a href="/boards/new/">글작성</a></p>
+            </thead>
+            <tbody>
+                {% for board in boards %}
+                    <tr>
+                        <td><a href="{% url 'boards:detail' board.id %}">{{board.id}}</a></td>
+                        <td>{{board.title}}</td>
+                        <td>{{board.content}}</td>
+                        <td>{{board.created_at}}</td>
+                        <td>{{board.updated_at}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
 {% endblock %}
