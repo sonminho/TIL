@@ -1,7 +1,7 @@
 {% extends 'boards/base.html' %}
 
 {% block content %}
-        <div class="jumbotron">
+        <div class="jumbotron mt-5">
                 <h1>DETAIL</h1>
                 <h2>{{board.pk}} 번째 글</h2>
                 <hr>
@@ -10,10 +10,37 @@
                 <p>작성 시각 : {{board.created_at}}</p>
                 <p>수정 시각 : {{board.updated_at}}</p>
                 <a href="{% url 'boards:index' %}">메인 페이지로</a><hr>
-                <a href="{% url 'boards:update' board.pk %}">[수정]</a>
+                <a href="{% url 'boards:update' board.pk %}">수정</a>
+
                 <form action="{% url 'boards:delete' board.pk %}" method="POST" style="display: inline" onsubmit="return confirm('are you sure?');">
-                        {% csrf_token %}
-                        <button class="btn btn-danger" type="submit">삭제</button>
+                    {% csrf_token %}
+                    <button class="btn btn-danger" type="submit">삭제</button>
                 </form>
+
+                <!-- 댓글 출력 -->
+                <p>{{comments | length}} 개의 댓글</p>
+                    <ul>
+                        {% for comment in comments %}
+                        <li>
+                            {{comment.content}}
+                            <form action="{% url 'boards:comments_delete' board.pk comment.pk %}" method="POST" style="display: inline">
+                                {% csrf_token %}
+                                <input type="submit" value="댓글 삭제">
+                            </form>
+                        </li>
+                        {% empty %}
+                        댓글이 없어요. 처음으로 댓글을 달아 주세요!
+                        {% endfor %}
+                    </ul>
+                <hr>
+
+                <!-- 댓글 입력 -->
+                <form action="{% url 'boards:comments_create' board.pk %}" method="post">
+                    {% csrf_token %}
+                    <label for="content">Comment</label>
+                    <input type="text" name="content" id="content">
+                    <input type="submit" value="submit">
+                </form>
+                <hr>
         </div>
 {% endblock %}

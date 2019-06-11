@@ -1,0 +1,30 @@
+{% extends "movies/base.html" %}
+
+{% block content %}
+    <div class="jumbotron mt-5">
+        <h2>게시글 리스트</h2>
+        <p class="d-flex flex-row-reverse mt-5"><a href="{% url 'movies:create' %}" style="color: black;">글작성</a></p>
+        <table class="table table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th>번호</th>
+                    <th>제목</th>
+                    <th>English</th>
+                    <th>관람수</th>
+                    <th>개봉일</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for movie in movies %}
+                    <tr>
+                        <td><a href="">{{movie.id}}</a></td>
+                        <td>{{movie.title}}</td>
+                        <td>{{movie.title_en}}</td>
+                        <td>{{movie.audience}}</td>
+                        <td>{{movie.open_date}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'movies',
     'boards',
     'django_extensions',
     'django.contrib.admin',
@@ -56,7 +57,7 @@ ROOT_URLCONF = 'crud.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'crud', 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

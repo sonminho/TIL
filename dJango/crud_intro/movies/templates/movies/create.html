@@ -1,0 +1,60 @@
+{% extends "movies/base.html" %}
+
+{% block content %}
+    <div class="jumbotron mt-5">
+        <h2>영화등록</h2><hr>
+        <form class="form" action="/movies/create/" method="POST">
+            {% csrf_token %}
+            <div class="row mt-3">
+                <input class="form-control" type="text" name="title" placeholder="제목">
+            </div>
+            <div class="row mt-3">
+                <input class="form-control" type="text" name="title_en" placeholder="english title">
+            </div>
+            <div class="row mt-3">
+                <input class="form-control" type="number" name="audience" placeholder="관객수">
+            </div>
+            <div class="row mt-3">
+                <input class="form-control" type="date" name="open_date" placeholder="개봉일">
+            </div>
+            <div class="row mt-3">
+                <input class="form-control" type="text" name="genre" placeholder="장르">
+            </div>
+            <div class="row mt-3">
+                <div class="form-check-inline">
+                    <label class="form-check-label">
+                      <input type="radio" class="form-check-input" name="watch_grade" value="12" checked>12세 이상관람가
+                    </label>
+                </div>
+                <div class="form-check-inline">
+                    <label class="form-check-label">
+                      <input type="radio" class="form-check-input" name="watch_grade" value="15">15세 이상관람가
+                    </label>
+                </div>
+                <div class="form-check-inline">
+                    <label class="form-check-label">
+                      <input type="radio" class="form-check-input" name="watch_grade" value="0">19세 이상관람가
+                    </label>
+                </div>
+                <div class="form-check-inline">
+                    <label class="form-check-label">
+                      <input type="radio" class="form-check-input" name="watch_grade" value="0">전체 관람가
+                    </label>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <input class="form-control" type="number" name="score" value="0.0">
+            </div>
+            <div class="row mt-3">
+                <input class="form-control" type="text" name="poster_url" placeholder="이미지 url">
+            </div>
+            <div class="row mt-3">
+                <input class="form-control" type="text" name="description" placeholder="설명">
+            </div>
+            <div class="d-flex flex-row-reverse mt-5">
+                <button class="btn btn-primary ml-3" type="submit">등록</button>
+                <button class="btn btn-danger" type="button">취소</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}
