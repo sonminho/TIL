@@ -1,6 +1,7 @@
 {% extends 'boards/base.html' %}
 {% load bootstrap4 %}
 {% block content %}
+{% load socialaccount %}
 <h1>로그인</h1>
 <form action="" method="POST">
   {% csrf_token %}
@@ -8,4 +9,5 @@
   {% bootstrap_form form %}
   {% buttons submit='OK' reset="Cancel" %}{% endbuttons %}
 </form>
+<a class="btn btn-warning" href="{% provider_login_url 'kakao' method='oauth2' %}">KAKAO LOGIN</a>
 {% endblock %}

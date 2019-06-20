@@ -1,5 +1,4 @@
 """myform URL Configuration
-
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/2.2/topics/http/urls/
 Examples:
@@ -15,9 +14,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from accounts import views as accounts_views
+
 
 urlpatterns = [
     path('accounts/', include('accounts.urls')),
+    path('accounts/', include('allauth.urls')),
     path('boards/', include('boards.urls')),
     path('admin/', admin.site.urls),
+    path('<username>/', accounts_views.profile, name="profile"),
 ]
