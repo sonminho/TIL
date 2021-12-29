@@ -1,4 +1,4 @@
-package chp02;
+package chap02;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
