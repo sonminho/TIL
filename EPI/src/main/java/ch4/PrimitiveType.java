@@ -21,4 +21,22 @@ public class PrimitiveType {
         return bitCnt;
     }
 
+    /*
+        4.1 패리티 계산
+        bit 의 1의 개수가 짝수면 0, 홀수면 1을 반환
+        1로 셋팅된 bit 수가 k 개라면
+        시간 복잡도는 O(k)
+     */
+    public short parity(long x) {
+        short result = 0;
+
+        // 1로된 최하위 비트를 제거
+        while(x != 0) {
+            result ^= 1; // XOR 0, 1 반복
+            x &= (x-1);
+        }
+
+        return result;
+    }
+
 }
