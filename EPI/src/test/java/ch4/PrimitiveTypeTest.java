@@ -67,4 +67,23 @@ class PrimitiveTypeTest {
         Assertions.assertEquals(rs2, 72L);  // 72  > 01 00 10 00
     }
 
+    @Test
+    public void closestIntSameBitCount() {
+        // given
+        long x1 = 6;
+        long x2 = 0;
+        long x3 = ~0;
+
+        // when
+        long rs1 = primitiveType.closestIntSameBitCount(x1);
+
+        // then
+        Assertions.assertEquals(rs1, 5);
+        Assertions.assertThrows(IllegalArgumentException.class,() -> {
+            primitiveType.closestIntSameBitCount(x2);
+        });
+        Assertions.assertThrows(IllegalArgumentException.class,() -> {
+            primitiveType.closestIntSameBitCount(x3);
+        });
+    }
 }

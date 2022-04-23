@@ -70,5 +70,22 @@ public class PrimitiveType {
             | precomputedReverse[ (int) ((x >>> (2 * WORD_SIZE)) & BIT_MASK) ] << WORD_SIZE
             | precomputedReverse[ (int) ((x >>> (3 * WORD_SIZE)) & BIT_MASK) ];
     }
-
+    
+    /*
+        4.4 같은 무게를 가진 가장 가까운 정수 찾기
+        음이 아닌 정수 x가 주어졌을 때, x와 무게는 같지만, 즉 |y - x|가 최소가 되는 문제
+        ex) x가 6일 때(110), 5(101)
+        비트의 길이가 n일 때 시간 복잡도는 O(n)
+     */
+    public long closestIntSameBitCount(long x) throws IllegalArgumentException {
+        final int UNSIGNED_BITS = 63;
+        for(int i = 0; i < UNSIGNED_BITS - 1; i++) {
+            if( ((x >>> i) & 1) != ((x >>> i+1) & 1) ) {
+                x ^= (1L << i) | (1L << (i+1));
+                return x;
+            }
+        }
+        // x의 모든 비트가 0 또는 1이면 오류
+        throw new IllegalArgumentException("All bits are 0 or 1");
+    }
 }
