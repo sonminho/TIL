@@ -39,4 +39,17 @@ public class PrimitiveType {
         return result;
     }
 
+    /*
+        4.2 비트스왑
+        입력 크기에 상관없이 O(1)
+     */
+    public long swapBits(long x, int i, int j) {
+        // i번째 비트와 j번째 비트가 다르면 스왑
+        if( ((x >>> i) & 1) != ((x >>> j) & 1) ) {
+            long bitMask = (1L << i) | (1L << j);
+            x ^= bitMask; // XOR
+        }
+
+        return x;
+    }
 }

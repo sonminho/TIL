@@ -37,4 +37,19 @@ class PrimitiveTypeTest {
         Assertions.assertEquals(result2, 0);
     }
 
+    @Test
+    public void swapBits() {
+        // given
+        long x1 = 17; // 10001
+        long x2 = 18; // 10010
+
+        // when
+        long rs1 = primitiveType.swapBits(x1, 4, 0);
+        long rs2 = primitiveType.swapBits(x2, 4, 0);
+
+        // then
+        Assertions.assertEquals(rs1, 17L);
+        Assertions.assertEquals(rs2, 3L);
+    }
+
 }
