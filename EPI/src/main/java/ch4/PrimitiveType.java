@@ -52,4 +52,23 @@ public class PrimitiveType {
 
         return x;
     }
+
+    /*
+        4.3 비트 뒤집기
+        8비트를 2비트의 x1, x2, x3, x4로 나누고
+        룩업 테이블을 활용(캐시 전략)
+        [00], [10], [01], [11] <- 미리 계산된 값
+        시간 복잡도는 입력 비트 수 n을 캐시의 크기 L로 나눈 값 O(n/L)
+     */
+    public long reverseBits(long x) {
+        int[] precomputedReverse = { 0, 2, 1, 3 }; // 리버스 룩업 테이블 [00], [10], [01], [11]
+        final int WORD_SIZE = 2;
+        final int BIT_MASK = 0x3; // [11]
+
+        return precomputedReverse[ (int) (x & BIT_MASK) ] << (3 * WORD_SIZE)
+            | precomputedReverse[ (int) ((x >>> WORD_SIZE) & BIT_MASK) ] << (2 * WORD_SIZE)
+            | precomputedReverse[ (int) ((x >>> (2 * WORD_SIZE)) & BIT_MASK) ] << WORD_SIZE
+            | precomputedReverse[ (int) ((x >>> (3 * WORD_SIZE)) & BIT_MASK) ];
+    }
+
 }

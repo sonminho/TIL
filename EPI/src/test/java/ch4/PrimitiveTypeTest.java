@@ -52,4 +52,19 @@ class PrimitiveTypeTest {
         Assertions.assertEquals(rs2, 3L);
     }
 
+    @Test
+    public void reverseBits() {
+        // given
+        long x1 = 1;  // 00 00 00 01
+        long x2 = 18; // 00 01 00 10
+
+        // when
+        long rs1 = primitiveType.reverseBits(x1);
+        long rs2 = primitiveType.reverseBits(x2);
+
+        // then
+        Assertions.assertEquals(rs1, 128L); // 128 > 10 00 00 00
+        Assertions.assertEquals(rs2, 72L);  // 72  > 01 00 10 00
+    }
+
 }
