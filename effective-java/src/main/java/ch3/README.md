@@ -1,5 +1,5 @@
 # _Item10_
-## equals 메서드는 일반 규약을 지켜 재정의하라
+### equals 메서드는 일반 규약을 지켜 재정의하라
 
 ### Object 클래스의 equals 메서드의 기본기능은 해당 클래스의 인스턴스가 같은지 비교하는 것
 
@@ -119,7 +119,7 @@ public class Clazz {
 ```
 ---
 # _Item11_
-## equals 를 재정의하려거든 hashCode 도 재정의하라
+### equals 를 재정의하려거든 hashCode 도 재정의하라
 equals 메서드가 재정의 되었으면 hashCode 도 변경이 되어야한다.
 그렇지 않으면 HashMap 이나 HashSet 같은 컬렉션에서 Key 를 해싱할 때 문제가 발생한다. 
 
@@ -212,7 +212,7 @@ class PhoneNumber {
   속도는 빨라지겠지만 특정 영역에 인스턴스들이 몰려 해시테이블의 성능이 급격하게 나빠진다.
 ---
 # _Item12_
-## toString 을 항상 재정의하라
+### toString 을 항상 재정의하라
 모든 클래스가 상속한 Object 에 정의된 toString 메서드는 *클래스_이름@16진수로_표시한_해시코드* 를 반환한다.
 
 > toString 의 일반 규약에 따르면 '간결하면서 사람이 일기 쉬운 형태의 유익한 정보'를 반환해야 한다. 
@@ -223,5 +223,94 @@ toString 을 재정의할 때 반환 값의 포맷을 문서화할지 정해야 
   - ex. BigInteger, BigDecimal 클래스
 - 포맷을 한번 명시하면 그 클래스는 포맷에 얽매이게 됨, 해당 클래스를 사용하는 모든 프로그래머들이 포맷을 준수하여 
 파싱하고 객체를 생성해야하며 포맷이 변경될 때 번거로움
+
+---
+
+# _Item13_
+### clone 재정의는 주의해서 진행하라
+
+> Cloneable 은 복제해도 되는 클래스임을 명시하는 mixin interface(item20)이지만 아쉽게도 의도한 목적을 제대로 이루지 못했다.
+
+Cloneable 인터페이스의 역할
+- Object 클래스의 protected 메서드인 clone 의 동작 방식을 결정
+- 인터페이스를 구현한 클래스의 인스턴스 필드들을 하나하나 복사한 객체를 반환하며
+그렇지 않은 클래스 인스턴스에서 호출하면 _CloneNotSupportedException_ 를 던짐
+
+#### Object 클래스 스펙에 명시된 clone
+
+> 이 객체의 복사본을 생성해 반환한다. '복사'의 의미는 그 객체를 구현한 클래스에 따라 다를 수 있다.
+
+어떤 객체 x에 대해 다음 식은 참이다.
+- x.clone() != x
+- x.clone().getClass() == x.getClass()
+  - 반드시 만족해야하는 것은 아님
+- x.clone().equals(x)
+  - 마찬가지로 일반적으로 참이지만, 필수는 아님
+
+#### 관례상, 반환된 객체와 원본 객체는 독립적이여야 함
+
+- 클래스 A를 상속한 클래스 B의 clone 은 'B' 타입 객체를 반환해야한다.
+  - 만약 A 클래스가 clone 에서 'A' 타입을 반환했다면 'B'도 'A' 타입 객체를 반환하게 된다.
+    - super.clone() 을 연쇄적으로 호출하도록 구현하면 clone 이 처음 호출된 상위 클래스의 객체가 만들어짐
+
+_가변상태를 참조하지 않는 클래스용 clone 메서드_
+```java
+final class PhoneNumber implements Cloneable {
+    private final int areaCode, preFix, lineNumber;
+    
+    ...
+    
+    @Override
+    PhoneNumber clone() {
+        try {
+            /*
+             재정의한 메서드의 반환타입은 상위 클래스의 메서드가 
+             반환하는 타입의 하위 타입일 수 있다.
+             */
+            return (PhoneNumber) super.clone();
+        } catch(CloneNotSupportedException e) {
+            throw new AssertionError(); // 발생할 수 없음
+        }
+    }
+} 
+```
+위 코드와 같이 모든 필드가 기본타입이거나 불변 객체를 참조하면 super.clone() 으로 반환되는
+상위 객체 타입을 하위 객체 타입으로 캐스팅 하면 된다. 하지만 가변 객체는 상황이 달라진다.
+
+_가변상태를 참조하는 클래스용 clone 메서드_
+```java
+class Stack implements Cloneable {
+    private Object[] elements;
+    private int size = 0;
+    ...
+    @Override
+    public Stack clone() {
+        try {
+            Stack stack = (Stack) super.clone();
+            // result.elements = elements.clone();
+            return result;    
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
+    }
+    
+    @Test
+    void cloneTest() {
+        Stack stack1 = new Stack();
+        stack1.push(1);
+        Stack stack2 = stack1.clone();
+        stack1.push(2);
+        
+        assertEqual(stack1.elements, stack2.elements);
+    }
+}
+```
+cloneTest()에서 스택의 배열원소 element 는 참조필드 이기 때문에 stack1과 stack2 인스턴스는 같은 필드를 참조한다.
+위 케이스에서는 스택 사이즈는 stack1이 2, stack2가 1인데 element 는 [1, 2] 를 갖는다.
+clone 메서드를 재정의할 때 _참조형 변수 및 가변상태를 재귀적으로 clone() 호출_ 해야한다. 
+elements.clone() 의 결과를 Object[]로 형변환할 필요는 없음.
+> 배열의 clone 은 런타임 타입과 컴파일타임 타입 모두가 원본 배열과 똑같은 배열을 반환한다.
+> 따라서 배열을 복제할 때는 clone 메서드 사용이 권장됨.
+
 
 ---

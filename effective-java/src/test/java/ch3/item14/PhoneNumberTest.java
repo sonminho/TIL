@@ -26,7 +26,6 @@ class PhoneNumberTest {
         assertTrue(pn3.compareTo(pn4) < 0);
         assertEquals(0, pn1.compareTo(pn4));
         phoneNumberList.sort(PhoneNumber::compareTo);
-
         System.out.println(phoneNumberList.toString());
     }
 }
