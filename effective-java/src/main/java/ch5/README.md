@@ -66,3 +66,32 @@ static void unsafeAdd(List<Object> list, Object o) {
 > 비검사 경고는 중요하니 무시하지 말자. 모든 비검사 경고는 런타임 시점에 _ClassCastException_ 을 발생시킬 수 있으니 제거하는 것이 좋다.
 
 ---
+
+# _Item28_
+### 배열보다는 리스트를 사용하라
+
+배열과 제네릭 타입의 차이가 있음
+
+#### 배열(공변, covariant)
+Sub 타입이 Super 타입의 하위타입이라면 Sub[]은 Super[] 의 하위 타입이 된다.
+
+```java
+/* 런타임시 실패 */
+Object[] objArr = new Long[1];
+objArr[0] = "공변환 테스트";  // ArrayStoreException 발생
+```
+
+#### 제네릭(불공변, invariant)
+서로 다른 타입 Type1, Type2 가 있을 때, List<Type1>은 List<Type2>의 하위 타입도 상위 타입도 아님
+```java
+/* 컴파일시 실패 */
+List<Object> ol = new ArrayList<Long>(); // 컴파일 에러
+ol.add("공변환 테스트"); // 호환되지 않는 타입을 추가할 수 없음
+```
+> 배열은 공변이고 실체화되는 반면, 제네릭은 불공변이고 타입 정보가 소거가 된다. → 제네릭 코드가 지원되기 전의 레거시 코드와 제네릭
+> 타입을 함께 사용하기 위해..
+
+배열은 런타임에는 타입 안전하지만 컴파일타임에는 그렇지 않다. 제네릭은 이와 반대이다. 이러한 이유로 배열과 제네릭을 함께 쓰기란 쉽지 않다.
+
+---
+
