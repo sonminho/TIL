@@ -311,6 +311,18 @@ clone 메서드를 재정의할 때 _참조형 변수 및 가변상태를 재귀
 elements.clone() 의 결과를 Object[]로 형변환할 필요는 없음.
 > 배열의 clone 은 런타임 타입과 컴파일타임 타입 모두가 원본 배열과 똑같은 배열을 반환한다.
 > 따라서 배열을 복제할 때는 clone 메서드 사용이 권장됨.
-
-
 ---
+
+# _Item14_
+###Comparable 을 구현할지 고려하라
+
+> Comparable 을 구현했다는 것은 그 클래스의 인스턴스들에는 자연적인 순서(natural order)가 있음을 의미한다.
+
+compareTo 메서드의 일반 규약은 equals 의 규약과 비슷하다.
+- 주어진 객체보다 작으면 음의 정수를, 같으면 0을, 크면 양의 정수를 반환
+- 비교할수 없는 타입의 객체가 주어지면 ClassCastException 을 던짐
+- Comparable 을 구현한 모든 클래스는 모든 x, y에 대해 sgn(x.compareTo(y)) == -sgn(y.compareTo(x))여야 한다.
+- Comparable 을 구현한 클래스는 추이성을 보장해야 한다. x.compareTo(y) > 0 && y.compareTo(z) > 0 이면 x.compareTo(z) > 0 이다.
+- Comparable 을 구현한 클래스는 모든 z에 대해 x.compareTo(y) == 0 이면 sgn(x.compareTo(z)) == sgn(y.compareTo(z))다.
+- 필수는 아니지만 꼭 지키는게 좋다. _(x.compareTo(y) == 0) == x.equals(y)_ 
+- ---
