@@ -154,6 +154,74 @@ class Stack<E> {
 # _Item31_
 ### 한정적 와일드 카드를 사용해 API 유연성을 높이라
 
+```List<String>``` 같은 매개변수화 타입은 불공변(invariant) 이다.
 
+즉, ```List<String>``` 은 ```List<Object>``` 의 하위 타입이 아니다.
+
+```java
+public class Stack<E> {
+    public void push(E e);
+    
+    public void pushAll(Iterable<E> src) {
+        for(E e : src) push(e);
+    }
+}
+```
+
+```pushAll(Iterable<E> src)```는 Iterable 을 구현한 자료형이면 잘 동작하지만 결함이 있다.
+
+```java
+Stack<Number> numStack = new Stack<>();
+Iterable<Integer> integers = ...;
+numStack.pushAll(integers);
+```
+코드에서 정상적으로 ```pushAll``` 이 호출될 것 같지만 컴파일 에러가 발생한다.
+
+매개변수화 타입은 불공변이기 때문에 ```Iterable<Integer>``` 는 ```Stack<Number>```와 다른 타입이다 
+
+#### ```pushAll(Iterable<E> src)``` 메서드가 유연하게 동작하려면 어떻게 해야할까?
+
+#### _한정적 와일드카드타입_
+```java
+public void pushAll(Iterable<? extends E> src) {
+    for(E e : src) push(e);
+}
+```
+코드로 변경하면 E 타입을 상속받는 클래스를 받을 수 있기 때문에 컴파일 에러를 피할 수 있다. 
+
+_그렇다면 아래 코드를 확장하기 위해 어떤 작업이 필요할까?_
+```java
+public void popAll(Collection<E> dst) {
+    while(!dst.isEmpty())
+        dst.add(pop());
+}
+```
+```popAll``` 메서드는 ```Collection<E>``` 타입의 원소를 받을 수 있다.
+```java
+Stack<Number> numStack = new Stack<>();
+Collection<Object> objects = ...;
+numStack.popAll(objects);
+```
+마찬가지로 위 코드에서 매개변수 타입은 불공변 성질을 갖기 때문에 컴파일 에러가 발생하는 것을 알 수 있다.
+
+
+```popAll``` 메서드는 ```Collection<E>``` 은 E 타입을 소비한다. 
+
+유연하게 변수를 받기 위해 E 타입의 상위 타입도 받을 수 있도록 수정해보자.
+
+```java
+public void popAll(Collection<? super E> dst) {
+    while(!dst.isEmpty())
+        dst.add(pop());
+}
+```
+
+```Collection<? super E>``` 와일드 카드로 상위 타입을 받을 수 있도록 변경하여 컴파일 에러를 제거 할 수 있다.
+
+위 예시와 같이 와일드카드 사용에 적용되는 일반화 공식이 있다.
+
+#### 펙스(PECS): producer-extends, consumer-super
+_매개변수 타입 T가 생산자라면 <? extends T> 를 사용하고 소비자라면 <? super T>를 사용하라_
 
 ---
+
