@@ -225,3 +225,81 @@ _매개변수 타입 T가 생산자라면 <? extends T> 를 사용하고 소비�
 
 ---
 
+# _Item32_
+
+### 제네릭과 가변인수를 함께 쓸 때는 신중하라
+
+매개변수화 타입의 변수가 타입이 다른 객체를 참조하면 힙 오염이 발생한다.
+
+가변인수(varargs) 메서드 는 호출 시 가변인수를 담기 위한 배열이 자동생성된다.
+
+```java
+static void dangerous(List<String> ... stringLists) {
+    List<Integer> intList = List.of(42);
+    Object[] objects = stringLists;
+    objects[0] = intList; // Heap Pollution 발생, 다른 객체를 참조하였음
+    String s = stringLists[0].get(0); // ClassCastException
+} 
+``` 
+위 메서드를 호출하면 형변환하는 곳이 없는데도 ```ClassCastException``` 이 발생한다. 즉, 타입 안전하지 않다.
+
+제네릭 배열은 직접 생성하지 못하게 했으면서 제네릭 varargs 매개변수를 받는 메서드를 선언하게 할 수 있게 한 이유는 무엇일까?
+
+이유는 실무에 사용될 때 매우 유용하기 때문!
+
+```Arrays.asList(T... a)```, ```Collections.addAll(Collection<? super T> c, T... elements)``` 등 자바 라이브러리가 기본적으로
+제공하는 메서드는 위 dangerous 와 달리 타입 안전하다.
+
+자바 7 이후로 ```@SafeVarargs``` 애너테이션이 추가돼서 제네릭 가변인수 메서드 작성자가 클라이언트 측에서 발생하는 경고를 숨길 수 있게 되었는데,
+
+에너테이션을 사용하기 위해 2가지 일반적인 규칙이 있다.
+
+1. 배열에 아무것도 저장하지 않는다.(매개변수들을 덮어쓰지 않음)
+2. 그 배열의 참조가 밖으로 노출되지 않는다.(신뢰할 수 없는 코드가 배열에 접근할 수 없도록 함)
+
+_참조변수를 노출하는 메서드_
+```java
+static<T> T[] toArray(T... args) {
+    return args;
+}
+```
+> ```args``` 변수를 그대로 반환하면 메서드를 호출한 쪽의 콜스택으로까지 전이한느 결과를 낳을 수 있다.
+
+```java
+static <T> T[] pickTwo(T a, T b, T c) {
+    switch(ThreadLocalRandom.current().nextInt(3)) {
+        case 0: return toArray(a, b);
+        case 1: return toArray(a, c);
+        case 2: return toArray(b, c);
+    }
+    throw new AssertionError(); // 도달할 수 없음
+}
+```
+```java
+@Test
+public pickTwoTest() {
+    String[] attributtes = pickTwo("좋은", "빠른", "저렴한"); // ClassCastException 발생!
+}
+```
+```toArray``` 는 Object 타입의 배열을 반환한다.
+
+메서드 호출 할 때가 되어서야 힙 오염(Heap pollution) 이 발생한다.
+
+_올바른 ```@SafeVargs``` 사용하기_
+```java
+@SafeVarargs
+static <T> List<T> flattern(List<? extends T>... lists) {
+    List<T> result = new ArrayList<>();
+    for(List<? extends T> list : lists)
+        result.addAll(list);
+    return result;
+}
+```
+위 메서드는 다음과 같은 2가지를 준수하였다.
+1. varargs 매개변수 배열에 아무것도 저장하지 않았다.
+2. 그 배열(혹은 복제본)을 신뢰할 수 없는 코드에 노출하지 않았다.
+
+> 제네릭은 가변인수와 궁합이 좋지 않다. 가변인수 기능은 배열을 노출하여 추상하가 완벽하지 못하고
+> 배열과 제네릭의 타입 규칙이 서로 다르기 때문이다.
+
+---
