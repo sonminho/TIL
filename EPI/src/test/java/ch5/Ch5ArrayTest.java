@@ -36,4 +36,12 @@ class Ch5ArrayTest {
         Assertions.assertEquals("-147573952589676412927", sb.toString());
     }
 
+    @Test
+    public void canReachEnd() {
+        List<Integer> list1 = Arrays.asList(2,4,1,1,0,2,3);
+        List<Integer> list2 = Arrays.asList(0, 3, 4, 4, 4, 6, 6, 7);
+        Assertions.assertTrue(Ch5Array.canReachEnd(list1));
+        Assertions.assertFalse(Ch5Array.canReachEnd(list2));
+    }
+
 }

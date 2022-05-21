@@ -56,4 +56,17 @@ public class Ch5Array {
 
         return result;
     }
+
+    /*
+    5.4 배열에서 이동하기
+    크기가 n 인 배열 A 에서 첫번째에서 마지막 인덱스로 이동할 수 있는지 판단
+    배열의 인덱스 i 위치에서는 dist 만큼 이동할 수 있다.(dist <= A[i])
+     */
+    static boolean canReachEnd(List<Integer> A) {
+        int nowIdx = 0;
+        for(int i = 0; i <= nowIdx && nowIdx < A.size(); i++) {
+            nowIdx = Math.max(nowIdx, i + A.get(i));
+        }
+        return nowIdx >= A.size() - 1;
+    }
 }
