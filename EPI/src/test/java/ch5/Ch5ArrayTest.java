@@ -44,4 +44,19 @@ class Ch5ArrayTest {
         Assertions.assertFalse(Ch5Array.canReachEnd(list2));
     }
 
+    @Test
+    public void deleteDuplicatesTest() {
+        // given
+        List<Integer> list1 = Arrays.asList(2,3,4,4,5,5,5,7);
+        List<Integer> list2 = Arrays.asList(2,3,4,5,7,0,0,0);
+
+        // when
+        Ch5Array.deleteDuplicates(list1);
+
+        // then
+        for(int i = 0; i < list1.size(); i++) {
+            Assertions.assertEquals(list2.get(i), list1.get(i));
+        }
+
+    }
 }

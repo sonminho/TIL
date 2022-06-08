@@ -69,4 +69,27 @@ public class Ch5Array {
         }
         return nowIdx >= A.size() - 1;
     }
+
+    /*
+     5.5 정렬된 배열에서 중복 제거하기
+     정렬된 배열이 입력으로 주어질 때, 중복된 원소를 모두 제거한 뒤, 비어있는
+     공간이 생기지 않도록 유효한 원소들을 모두 왼쪽으로 시프트하라
+     */
+    static List<Integer> deleteDuplicates(List<Integer> A) {
+        if(A.isEmpty()) return Collections.emptyList();
+
+        int now = 1;
+
+        for(int i = 1; i < A.size(); i++) {
+            if(!A.get(now - 1).equals(A.get(i))) {
+                A.set(now++, A.get(i));
+            }
+        }
+
+        for(int i = now; i < A.size(); i++) {
+            A.set(i, 0);
+        }
+
+        return A;
+    }
 }
