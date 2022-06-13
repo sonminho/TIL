@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>06-09</title>
+    <script src="https://unpkg.com/vue@2.5.16/dist/vue.js"></script>
+</head>
+<template id='timeTemplate'>
+    <div>
+        <span>{{nowTS}}</span>
+        <button v-on:click="timeClick">현재시간</button>
+    </div>
+</template>
+<script type="text/javascript">
+    Vue.component('time-component',{
+        template: '#timeTemplate',
+        data: function() {
+            return {nowTS : 0};
+        }, // 객체를 직접 지정, 렌더링 오류
+        methods: {
+            timeClick: function() {
+                this.nowTS = (new Date()).getTime();
+            }
+        },
+    })
+</script>
+<body>
+    <div id="app">
+        <time-component></time-component>
+        <time-component></time-component>
+    </div>
+    <script type="text/javascript">
+        var v = new Vue({
+            el: '#app'
+        })
+    </script>
+</body>
+</html>

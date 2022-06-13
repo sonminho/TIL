@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>06-12</title>
+    <script src="https://unpkg.com/vue@2.5.16/dist/vue.js"></script>
+</head>
+<template id='listTemplate'>
+    <li>{{message}} {{count}} {{contries}}</li>
+</template>
+<script type="text/javascript">
+    Vue.component('list-component',{
+        template: '#listTemplate',
+        props: {
+            message : {type:String, default:'안녕하세요'},
+            count: {type:Number, required:true},
+            contries: {
+                type: Array,
+                default: function() {
+                    return ['대한민국'];
+                }
+            }
+        }
+    })
+</script>
+<body>
+    <div id="app">
+        <ul>
+            <list-component message="Hello" v-bind:count="21"></list-component>
+            <list-component message="신짜오" :count="10" :contries="['베트남', '프랑스']"></list-component>
+            <list-component message="니하오마" :count="55"></list-component>
+            <list-component :count="40" :contries="['중국', '타이완']"></list-component>
+        </ul>
+    </div>
+    <script type="text/javascript">
+        var v = new Vue({
+            el: '#app'
+        })
+    </script>
+</body>
+</html>
