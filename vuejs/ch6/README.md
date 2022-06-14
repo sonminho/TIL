@@ -39,6 +39,38 @@ Vue.component('time-component',{
 컴포넌트가 여러 번 사용되더라도 동일한 객체를 가리키는 것이 아니라 함수가 호출될 때마다  
 만들어진 객체가 리턴되기 때문
 
+---
+#### props 를 이용한 정보 전달
 
+- Vue 컴포넌트 정의할 때 props 옵션 추가, 배열로 props명을 배열로 나열
 
+```javascript
+
+<!-- 하위 컴포넌트-->
+<template id="template">
+    <h1>{{message}}</h1>
+</template>
+Vue.component('component', {
+    template: '#template',
+    props: ['message']
+})
+
+...
+<!-- 상위 컴포넌트에서 하위 컴포넌트로 props 정보 전달-->
+<div id="app"> 
+    <component message="Hello World!"></component>
+</div>
+
+...
+
+new Vue({
+    el: '#app'
+})
+
+```
+---
+ 
+#### event 를 이용한 정보전달
+
+- 자식 컴포넌트는 이벤트를 발신(emit)하고 부모 컴포넌트는 v-on 디렉티브를 이용해 이벤트를 수신
 
