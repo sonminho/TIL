@@ -74,3 +74,39 @@ new Vue({
 
 - 자식 컴포넌트는 이벤트를 발신(emit)하고 부모 컴포넌트는 v-on 디렉티브를 이용해 이벤트를 수신
 
+
+---
+
+#### 이벤트 버스 객체를 이용한 통신
+
+- 부모-자식 관계가 아닌 컴포넌트들은 이벤트 버스(Event Bus) 객체를 사용하여 통신
+- 비어 있는 Vue 인스턴스를 생성하여 사용
+
+```child1-component```
+```javascript
+Vue.component('child1-component', {
+    methods: {
+        clickEvent: function() {
+            ...
+            eventBus.$emit('click', t);
+        }
+    }
+})
+```
+
+```child2-component```
+```javascript
+Vue.component('child2-component', {
+    create: function() {
+        eventBus.$on('click1', this.child1Click);
+    },
+    methods: {
+        click1Click: function(time) {
+            this.timelist.push(time);
+        }
+    }
+})
+```
+- 이벤트를 수신하는 컴포넌트는 미리 이벤트 핸들러를 등록해두어야 함
+    - Vue 인스턴스 생명주기의 created 이벤트 훅을 이용하여 Vue 인스턴스가 만들어질 때 $on 메서드를 사용해 이벤트 수신정보를 등록
+    - 이벤트를 발신하는 컴포넌트에서는 $emit 메서드를 호출
