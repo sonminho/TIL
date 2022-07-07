@@ -22,6 +22,7 @@
 <script type="text/javascript">
 import InputTodo from './InputTodo.vue';
 import List from './List.vue';
+import store from '../store';
 
 export default {
     name: 'todo-list',

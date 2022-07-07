@@ -37,23 +37,29 @@ ul li.checked::before {
 </template>
 
 <script type="text/javascript">
-import eventBus from "../EventBus";
+//import eventBus from "../EventBus";
+import Constant from '../Constant'
 
 export default {
     name: 'list',
-    created: function() {
-        eventBus.$on('add-todo', this.addTodo)
-    },
-    data : function() {
-        return {
-            todolist : [
-                { id:1, todo : "영화보기", done:false },
-                { id:2, todo : "주말 산책", done:true },
-                { id:3, todo : "ES6 학습", done:false },
-                { id:4, todo : "잠실 야구장", done:false },
-            ]
+    // created: function() {
+    //     eventBus.$on('add-todo', this.addTodo)
+    // },
+    computed: {
+        todolist: function() {
+            return this.$store.state.todolist;
         }
     },
+    // data : function() {
+    //     return {
+    //         todolist : [
+    //             { id:1, todo : "영화보기", done:false },
+    //             { id:2, todo : "주말 산책", done:true },
+    //             { id:3, todo : "ES6 학습", done:false },
+    //             { id:4, todo : "잠실 야구장", done:false },
+    //         ]
+    //     }
+    // },
     methods: {
         checked: function(done) {
             if(done) return {checked:true};
@@ -68,12 +74,14 @@ export default {
             }
         },
         doneToggle: function(id) {
-            var index = this.todolist.findIndex((item) => item.id == id);
-            this.todolist[index].done = !this.todolist[index].done;
+            // var index = this.todolist.findIndex((item) => item.id == id);
+            // this.todolist[index].done = !this.todolist[index].done;
+            this.$store.commit((Constant.DONE_TOGGLE, {id: id})); // 변이
         },
         deleteTodo: function(id) {
-            var index = this.todolist.findIndex((item) => item.id == id);
-            this.todolist.splice(index, 1);
+            // var index = this.todolist.findIndex((item) => item.id == id);
+            // this.todolist.splice(index, 1);
+            this.$store.commit((Constant.DELETE_TODO), {id: id});
         }
     }
 }
