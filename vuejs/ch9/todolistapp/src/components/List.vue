@@ -28,10 +28,10 @@ ul li.checked::before {
 
 <template>
     <ul id="todolist">
-        <li v-for="a in todolist" :key="a.id" :class="checked(a.done)" @click="doneToggle(a.id)">
+        <li v-for="a in todolist" :key="a.id" :class="checked(a.done)" @click="doneToggle({id : a.id})">
             <span>{{ a.todo }}</span>
             <span v-if="a.done"></span>
-            <span class="close" v-on:click.stop="deleteTodo(a.id)">&#x00D7;</span>
+            <span class="close" v-on:click.stop="deleteTodo({id: a.id})">&#x00D7;</span>
         </li>
     </ul>
 </template>
@@ -39,17 +39,14 @@ ul li.checked::before {
 <script type="text/javascript">
 //import eventBus from "../EventBus";
 import Constant from '../Constant'
+import { mapState, mapMutations } from 'vuex'
 
 export default {
     name: 'list',
     // created: function() {
     //     eventBus.$on('add-todo', this.addTodo)
     // },
-    computed: {
-        todolist: function() {
-            return this.$store.state.todolist;
-        }
-    },
+    computed: mapState(['todolist']),
     // data : function() {
     //     return {
     //         todolist : [
@@ -73,16 +70,20 @@ export default {
                 console.log(todo);
             }
         },
-        doneToggle: function(id) {
-            // var index = this.todolist.findIndex((item) => item.id == id);
-            // this.todolist[index].done = !this.todolist[index].done;
-            this.$store.commit((Constant.DONE_TOGGLE, {id: id})); // 변이
-        },
-        deleteTodo: function(id) {
-            // var index = this.todolist.findIndex((item) => item.id == id);
-            // this.todolist.splice(index, 1);
-            this.$store.commit((Constant.DELETE_TODO), {id: id});
-        }
+        // doneToggle: function(id) {
+        //     // var index = this.todolist.findIndex((item) => item.id == id);
+        //     // this.todolist[index].done = !this.todolist[index].done;
+        //     this.$store.commit((Constant.DONE_TOGGLE), {id: id}); // 변이
+        // },
+        // deleteTodo: function(id) {
+        //     // var index = this.todolist.findIndex((item) => item.id == id);
+        //     // this.todolist.splice(index, 1);
+        //     this.$store.commit((Constant.DELETE_TODO), {id: id});
+        // }
+        ...mapMutations([
+            Constant.DELETE_TODO,
+            Constant.DONE_TOGGLE
+        ])
     }
 }
 </script>
