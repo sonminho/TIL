@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1>연락처 상세</h1>
+        <hr class="divder">
         <table class="detail table table-bordered">
             <tbody>
                 <tr class="active"><td>일련번호</td><td>{{contact.no}}</td></tr>
@@ -36,6 +36,22 @@ export default {
             if(arr.length == 1) return arr[0];
             else return { };
         }
+    },
+    watch: {
+        '$route': function(to) { // 라우트 속성 관찰
+            this.no = to.params.no;
+        }
     }
 }
 </script>
+
+<style>
+.divider {
+    height:3px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #FF0066;
+    color: #FF0066;
+    border: 0 none;
+}
+</style>
