@@ -1,12 +1,10 @@
 <template>
   <div>
-    <div v-for="user in users">{{user.title}}</div>
+    <div v-for="user in this.$store.state.news">{{user.title}}</div>
   </div>
 </template>
 
 <script>
-import { fetchNewsList } from '../api/index.js'
-
 export default {
     data() {
         return {
@@ -14,16 +12,16 @@ export default {
         }
     },
     created() {
-        var vm = this;
+        this.$store.dispatch('FETCH_NEWS')
 
-        fetchNewsList()
-            .then(function(response) {
-                console.log(response)
-                vm.users = response.data
-            })
-            .catch(function(error) {
-                console.log(error)
-            })
+        // fetchNewsList()
+        //     .then(function(response) {
+        //         console.log(response)
+        //         vm.users = response.data
+        //     })
+        //     .catch(function(error) {
+        //         console.log(error)
+        //     })
     }
 }
 </script>
