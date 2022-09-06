@@ -16,10 +16,11 @@ const router = new VueRouter({
     { path:'/home', component: Home },
     { path:'/about', component: About },
     { 
-      path:'/contacts', 
+      path:'/contacts',
+      name:'contacts',
       component: Contacts,
       children: [
-        { path:':no', component: ContactByNo }
+        { path:':no', name: 'contactbyno', component: ContactByNo }
       ]
     },
   ]
