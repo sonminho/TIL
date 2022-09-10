@@ -19,7 +19,7 @@ export const store = new Vuex.Store({
         },
         fetchedItem(state) {
             return state.item
-        },
+        }
     },
     mutations,
     actions,

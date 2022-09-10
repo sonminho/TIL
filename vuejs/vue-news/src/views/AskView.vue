@@ -1,36 +1,34 @@
 <template>
   <div>
-    <p v-for="item in askItems">
-      <router-link :to="`item/${item.id}`">{{ item.title }}</router-link>
-      <small>{{ item.time_ago }} by {{ item.user }}</small>
-    </p>
+    <ListItem></ListItem>
+    <!-- <ListItem></ListItem>
+    <ul class="news-list">
+      <li v-for="item in askItems" class="post">s
+        <div class="points">
+          {{ item.points }}
+        </div>
+
+        <div>
+            <p class="news-title">
+                <router-link :to="`item/${item.id}`">{{ item.title }}</router-link>
+            </p>
+            <small class="link-text">
+                {{ item.time_ago }} by 
+                <router-link :to="`/user/${item.user}`" class="link-text">{{ item.user }}</router-link>
+            </small>
+        </div>
+      </li>
+    </ul> -->
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import ListItem from '../components/ListItem.vue'
 
 export default {
-    computed: {
-        // ...mapState({
-        //     fetchedAsk: state => state.ask
-        // })
-
-        ...mapGetters({
-            askItems: 'fetchedAsk'
-        })
-    },
-    data() {
-        return {
-            ask: []
-        }
-    },
-    created() {
-        this.$store.dispatch('FETCH_ASK')
-    },
+    components: { ListItem },
 }
 </script>
 
-<style>
-
+<style scoped>
 </style>
