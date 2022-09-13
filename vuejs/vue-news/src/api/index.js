@@ -6,16 +6,25 @@ const config = {
 }
 
 // 2. API 함수들을 정리
-function fetchList(pageName) {
-    return axios.get(`${config.baseUrl}${pageName}/1.json`)
+async function fetchList(pageName) {
+    try {
+        return axios.get(`${config.baseUrl}${pageName}/1.json`)
+    } catch(error) {
+        console.log(error)
+    }
 }
 
 function fetchNewsList() {
     return axios.get(`${config.baseUrl}news/1.json`)
 }
 
-function fetchAskList() {
-    return axios.get(`${config.baseUrl}ask/1.json`)
+async function fetchAskList() {
+    try {
+        const response =  axios.get(`${config.baseUrl}ask/1.json`)
+        return response
+    } catch(error) {
+        console.log(error)
+    }
 }
 
 function fetchJobsList() {
