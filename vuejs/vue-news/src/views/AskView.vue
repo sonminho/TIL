@@ -1,32 +1,21 @@
 <template>
   <div>
     <ListItem></ListItem>
-    <!-- <ListItem></ListItem>
-    <ul class="news-list">
-      <li v-for="item in askItems" class="post">s
-        <div class="points">
-          {{ item.points }}
-        </div>
-
-        <div>
-            <p class="news-title">
-                <router-link :to="`item/${item.id}`">{{ item.title }}</router-link>
-            </p>
-            <small class="link-text">
-                {{ item.time_ago }} by 
-                <router-link :to="`/user/${item.user}`" class="link-text">{{ item.user }}</router-link>
-            </small>
-        </div>
-      </li>
-    </ul> -->
   </div>
 </template>
 
 <script>
 import ListItem from '../components/ListItem.vue'
+import ListMixIn from '../mixins/ListMixin.js'
+import {bus} from '../utils/bus.js'
 
 export default {
+    name: 'AskView',
     components: { ListItem },
+    //mixins: [ListMixIn],
+    // mounted() {
+    //   bus.$emit('end:spinner')
+    // },
 }
 </script>
 

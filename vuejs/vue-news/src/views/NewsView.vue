@@ -5,13 +5,17 @@
 </template>
 
 <script>
-import {} from '../components/ListItem.vue'
 import ListItem from '../components/ListItem.vue'
+import ListMixIn from '../mixins/ListMixin.js'
+
 export default {
-    comments: {
-      ListItem,
-    },
-    components: { ListItem }
+  name: 'NewsView',
+  components: { 
+    ListItem 
+  },
+  //mixins: [ListMixIn],
+  created() {
+  }
 }
 </script>
 

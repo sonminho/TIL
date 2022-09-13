@@ -6,6 +6,10 @@ const config = {
 }
 
 // 2. API 함수들을 정리
+function fetchList(pageName) {
+    return axios.get(`${config.baseUrl}${pageName}/1.json`)
+}
+
 function fetchNewsList() {
     return axios.get(`${config.baseUrl}news/1.json`)
 }
@@ -31,5 +35,6 @@ export {
     fetchAskList,
     fetchJobsList,
     fetchUserInfo,
-    fetchCommentItem
+    fetchCommentItem,
+    fetchList,
 }

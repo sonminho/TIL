@@ -2,12 +2,11 @@
   <div>
     <section>
         <user-profile :info="fetchedItem">
-            <div slot="username">
+            <router-link slot="username" :to="`/user/${fetchedItem.user}`">
                 {{ fetchedItem.user }}
-            </div>
-
+            </router-link>
             <template slot="time">
-                {{ fetchedItem.time_ago }}
+                {{ 'Posted ' + fetchedItem.time_ago }}
             </template>
         </user-profile>
     </section>
