@@ -1,6 +1,6 @@
-package hello.advanced.trace.strategy;
+package hello.proxy.trace.strategy;
 
-import hello.advanced.trace.strategy.code.stragtegy.*;
+import hello.proxy.trace.strategy.code.stragtegy.*;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 
@@ -30,5 +30,5 @@ public class ContextV2Test {
         ContextV2 context = new ContextV2();
         context.execute(() -> log.info("비지니스 로직1 실행"));
     }
-
+    
 }
