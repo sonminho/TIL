@@ -1,10 +1,8 @@
 package hello.proxy.pureproxy.proxy;
 
-import com.sun.org.apache.regexp.internal.RE;
-import hello.proxy.pureproxy.code.CacheProxy;
-import hello.proxy.pureproxy.code.ProxyPatternClient;
-import hello.proxy.pureproxy.code.RealSubject;
-import hello.proxy.pureproxy.code.Subject;
+import hello.proxy.pureproxy.codes.CacheProxy;
+import hello.proxy.pureproxy.codes.ProxyPatternClient;
+import hello.proxy.pureproxy.codes.RealSubject;
 import org.junit.jupiter.api.Test;
 
 public class ProxyPatternTest {
