@@ -57,6 +57,13 @@ class Ch5ArrayTest {
         for(int i = 0; i < list1.size(); i++) {
             Assertions.assertEquals(list2.get(i), list1.get(i));
         }
-
     }
+
+    @Test
+    public void computeMaxProfit() {
+        List<Double> prices = Arrays.asList(310.0, 315.0, 275.0, 295.0, 260.0, 270.0, 290.0, 230.0, 255.0, 250.0);
+        Double maxProfit = Ch5Array.computeMaxProfit(prices);
+        Assertions.assertEquals(maxProfit, 30);
+    }
+
 }
