@@ -92,4 +92,22 @@ public class Ch5Array {
 
         return A;
     }
+
+    /*
+     5.6 주식 한 번 사고팔기
+     일자별 주가배열 <310, 315, 275, 295, 260, 270, 290, 230, 255, 250>이 있다.
+     주식을 한 번 사고 팔아서 최대 이윤을 구하라.
+     */
+    static double computeMaxProfit(List<Double> prices) {
+        double minPrice = Double.MAX_VALUE; // 최소 주가
+        double maxProfit = 0.0; // 최대 이윤
+
+        for(Double p : prices) {
+            maxProfit = Math.max(maxProfit, p-minPrice);
+            minPrice = Math.min(minPrice, p);
+        };
+
+        return maxProfit;
+    }
+    
 }
