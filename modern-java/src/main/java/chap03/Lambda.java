@@ -46,21 +46,4 @@ public class Lambda {
         return newList;
     }
 
-    public static void main(String[] args) {
-        List<String> listOfStrings = Arrays.asList("AAA", "BBB", "");
-        Predicate<String> nonEmptyStringPredicate = (String s) -> !s.isEmpty();
-        List<String> nonEmptyList = filter(listOfStrings, nonEmptyStringPredicate);
-        System.out.println(nonEmptyList.size()); // 2
-
-        List<String> consumeList = Arrays.asList("A","B","C");
-        List<String> lowerList = new ArrayList<>();
-        Consumer<String> lowerCaseAccept = (String s) -> lowerList.add(s.toLowerCase());
-        forEach(consumeList, lowerCaseAccept);
-        System.out.println(lowerList.toString());
-
-        List<String> strList = Arrays.asList("red", "blue", "green");
-        List<Integer> lenList = calStrLen(strList, (String s) -> s.length());
-        System.out.println(lenList.toString()); // [3, 4, 5]
-    }
-
 }

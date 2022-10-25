@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class FilteringApples {
@@ -34,21 +33,21 @@ public class FilteringApples {
         boolean check(Apple apple);
     }
 
-    static class AppleWeightPredicate implements ApplePredicate {
+    public static class AppleWeightPredicate implements ApplePredicate {
         @Override
         public boolean check(Apple apple) {
             return apple.getWeight() > 150; // 무게 150이상인 사과
         }
     }
 
-    static class AppleColorPredicate implements ApplePredicate {
+    public static class AppleColorPredicate implements ApplePredicate {
         @Override
         public boolean check(Apple apple) {
-            return apple.getColor() == Color.GREEN; // 녹색사과
+            return apple.getColor() == Color.RED; // 빨간사과
         }
     }
 
-    static class AppleRedAndHeavyPredicate implements ApplePredicate {
+    public static class AppleRedAndHeavyPredicate implements ApplePredicate {
         @Override
         public boolean check(Apple apple) {
             return apple.getColor() == Color.RED && apple.getWeight() > 150;
@@ -61,18 +60,6 @@ public class FilteringApples {
             if(p.check(apple)) filteredList.add(apple);
         }
         return filteredList;
-    }
-
-    public static void main(String[] args) {
-        List<Apple> inventory = Arrays.asList(
-                new Apple(80, Color.GREEN),
-                new Apple(155, Color.GREEN),
-                new Apple(180, Color.RED));
-
-        List<Apple> filteredList = filter(inventory, new AppleRedAndHeavyPredicate());
-
-        for(Apple apple : filteredList)
-            System.out.println(apple);
     }
 
 }
