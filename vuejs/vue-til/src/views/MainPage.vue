@@ -12,6 +12,11 @@
                     :postItem="postItem"/>
             </ul>
         </div>
+
+        <router-link to="/add" class="created-button">
+            <button class="btn">글쓰기</button>
+        </router-link>
+
     </div>
 </template>
 
