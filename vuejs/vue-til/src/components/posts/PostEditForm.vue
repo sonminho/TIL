@@ -1,6 +1,6 @@
 <template>
     <div class="contents">
-        <h1 class="page-header">Created Post</h1>
+        <h1 class="page-header">Edit Post</h1>
         <div class="form-wrapper">
             <form class="form" @submit.prevent="submitForm">
                 <div>
@@ -11,34 +11,42 @@
                     <label for="contents">Contents: </label>
                     <textarea id="contents" type="text" v-model="contents"/>
                 </div>
-                <button type="submit" class="btn">Create</button>
+                <button type="submit" class="btn">Edit</button>
             </form>
         </div>
     </div>
 </template>
 
 <script>
-import { createPost } from '@/api/posts';
+import { fetchPost, editPost } from '@/api/posts';
 
 export default {
     data() {
         return {
             title: '',
             contents: '',
+            logMessage: '',
         }
+    },
+    async created() {
+        const id = this.$route.params.id;
+        const { data } = await fetchPost(id);
+        console.log(data);
+        this.title = data.title;
+        this.contents = data.contents;
     },
     methods: {
         async submitForm() {
             try {
-                const response = await createPost({
-                    title: this.title,
-                    contents: this.contents,
+                await editPost(this.$route.params.id, {
+                    "title": this.title,
+                    "contents": this.contents
                 });
-                this.$router.push('/main')
+                this.$router.push('/main');
             } catch(error) {
-                console.log(error.response.data.message);
+                console.log(error);
             }
-        }
+        },
     }
 }
 </script>

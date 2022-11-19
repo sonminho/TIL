@@ -1,7 +1,7 @@
 <template>
 	<header>
 	  <div>
-		<router-link to="/" class="logo">
+		<router-link to="/main" class="logo">
 		  TIL
 		</router-link>
 	  </div>

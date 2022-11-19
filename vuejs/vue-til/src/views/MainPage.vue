@@ -9,13 +9,16 @@
                 <PostListItem
                     v-for="postItem in postItems"
                     :key="postItem._id"
-                    :postItem="postItem"/>
+                    :postItem="postItem"
+                    @refreshPostList="fetchData"
+                />
             </ul>
+
+            <router-link to="/add" class="created-button">
+                <button class="btn">글쓰기</button>
+            </router-link>
         </div>
 
-        <router-link to="/add" class="created-button">
-            <button class="btn">글쓰기</button>
-        </router-link>
 
     </div>
 </template>
@@ -23,7 +26,7 @@
 <script>
 import PostListItem from '@/components/posts/PostListItem.vue';
 import LoadingSpinner from '@/components/common/LoadingSpinner.vue';
-import { fetchPosts } from '@/api/index';
+import { fetchPosts } from '@/api/posts';
 
 export default {
     components: {
