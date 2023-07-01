@@ -20,7 +20,11 @@ management:
   endpoints:
     web:
       exposure:
-        include: "*"
+        include:
+          - "*"
+  health:
+    circuitbreakers:
+      enabled: true
 
 eureka:
   instance:
@@ -30,3 +34,18 @@ eureka:
     fetchRegistry: true # 레지스트리 사본을 로컬에 내려받기
     serviceUrl:
       defaultZone: http://localhost:8070/eureka # 유레카 서비스의 위치 설정
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      licenseService:
+        registerHealthIndicator: true # 상태 정보 엔드포인트에 대한 구성 정보 노출 여부를 설정
+        slidingWindowType: COUNT_BASED
+        slidingWindowSize: 5
+        waitDurationInOpenState: 10s # 열린 상태에서 대기시간
+        failureRateThreshold: 20 # 실패율 임계치 백분율
+        recordExceptions:
+          - org.springframework.web.client.HttpServerErrorException
+          - java.io.IOException
+          - java.util.concurrent.TimeoutException
+          - org.springframework.web.client.ResourceAccessException

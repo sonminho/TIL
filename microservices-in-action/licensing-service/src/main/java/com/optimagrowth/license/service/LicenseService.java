@@ -6,10 +6,18 @@ import com.optimagrowth.license.model.Organization;
 import com.optimagrowth.license.repository.LicenseRepository;
 import com.optimagrowth.license.service.client.OrganizationDiscoveryClient;
 import com.optimagrowth.license.service.client.OrganizationRestTemplateClient;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.concurrent.TimeoutException;
+
+@Slf4j
 @Service
 public class LicenseService {
 
@@ -85,6 +93,39 @@ public class LicenseService {
         license.setLicenseId(licenseId);
         licenseRepository.delete(license);
         return String.format("[not exist object] licenseId = %s", licenseId);
+    }
+
+    @CircuitBreaker(name = "licenseService", fallbackMethod = "buildFallbackLicenseList")
+    public List<License> getLicensesByOrganization(String organizationId) throws TimeoutException {
+        log.info("start getLicensesByOrganization");
+        randomlyRunLong();
+        return licenseRepository.findByOrganizationId(organizationId);
+    }
+
+    private void randomlyRunLong() throws TimeoutException {
+        Random random = new Random();
+        int randomNum = random.nextInt(2) + 1;
+        if (randomNum == 2) sleep();
+    }
+
+    private void sleep() throws TimeoutException {
+        try {
+            Thread.sleep(3000);
+            throw new TimeoutException();
+        } catch(InterruptedException e) {
+            log.error(e.getMessage());
+        }
+    }
+
+    private List<License> buildFallbackLicenseList(String organizationId, Throwable t) {
+        List<License> fallbackList = new ArrayList<>();
+        License license = new License();
+        license.setLicenseId("0000-0000-00000");
+        license.setOrganizationId(organizationId);
+        license.setProductName("Sorry no licensing information currently available");
+
+        fallbackList.add(license);
+        return fallbackList;
     }
 
 }
