@@ -6,6 +6,7 @@ import com.optimagrowth.license.model.Organization;
 import com.optimagrowth.license.repository.LicenseRepository;
 import com.optimagrowth.license.service.client.OrganizationDiscoveryClient;
 import com.optimagrowth.license.service.client.OrganizationRestTemplateClient;
+import com.optimagrowth.license.utils.UserContextHolder;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,11 +97,13 @@ public class LicenseService {
     }
 
     @CircuitBreaker(name = "licenseService", fallbackMethod = "buildFallbackLicenseList")
+    //@Retry(name = "retryLicenseService", fallbackMethod = "buildFallbackLicenseList")
     public List<License> getLicensesByOrganization(String organizationId) throws TimeoutException {
-        log.info("start getLicensesByOrganization");
+        log.info("getLicensesByOrganization Correlation Id {}", UserContextHolder.getContext().getCorrelationId());
         randomlyRunLong();
         return licenseRepository.findByOrganizationId(organizationId);
     }
+
 
     private void randomlyRunLong() throws TimeoutException {
         Random random = new Random();
@@ -112,8 +115,9 @@ public class LicenseService {
         try {
             Thread.sleep(3000);
             throw new TimeoutException();
-        } catch(InterruptedException e) {
+        } catch(Exception e) {
             log.error(e.getMessage());
+            throw new TimeoutException();
         }
     }
 

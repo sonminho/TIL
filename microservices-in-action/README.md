@@ -80,7 +80,18 @@
     - 세마포어 벌크헤드: 세마포어 격리 방식으로 서비스에 대한 동시 요청 수를 제한한다. 한계에 도달하면 요청을 거부한다.
     - 스레드 풀 벌크헤드: 제한된 큐와 고정 스레드 풀을 사용한다. 이 방식은 풀과 큐가 다 찬 경우에만 요청을 거부한다.
 
+- ### resilience4j.bulkhead 옵션  
+    maxWaitDuration: 벌크헤드에 들어갈 때 스레드 차단할 최대 시간 (default 0)
+    maxConcurrentCalls: 벌크헤드에서 허용되는 최대 동시 호출 수 (default 25s)
+    maxThreadPoolSize: 최대 스레드 풀 크기
+    coreThreadPoolSize: 코어 스레드 풀 크기
+    queueCapacity: 큐 용량 (default 100)
+    keepAliveDuration: 유휴 스레드가 종료되기 전에 새 작업을 기다리는데 최대 시간을 설정으로 스레드 수가 코어 스레드보다 많을 때 발생 (default 20ms)
+
 
     
 
+
+
+    
     
