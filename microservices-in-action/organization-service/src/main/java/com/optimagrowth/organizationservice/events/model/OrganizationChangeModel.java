@@ -4,10 +4,10 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-@Getter
-@Setter
+@Getter @Setter
 @ToString
 public class OrganizationChangeModel {
+
     private String type;
     private String action;
     private String organizationId;
@@ -20,4 +20,5 @@ public class OrganizationChangeModel {
         this.organizationId = organizationId;
         this.correlationId = correlationId;
     }
+
 }

@@ -14,4 +14,10 @@ public class ServiceConfig {
     @Value("${example.property}")
     private String property;
 
+    @Value("${redis.server}")
+    private String redisServer = "";
+
+    @Value("${redis.port}")
+    private String redisPort;
+
 }

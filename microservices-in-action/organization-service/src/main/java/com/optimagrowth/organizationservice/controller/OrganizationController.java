@@ -25,7 +25,7 @@ public class OrganizationController {
     }
 
     @PostMapping
-    public ResponseEntity<Organization>  saveOrganization(@RequestBody Organization organization) {
+    public ResponseEntity<Organization> saveOrganization(@RequestBody Organization organization) {
         return ResponseEntity.ok(service.create(organization));
     }
 

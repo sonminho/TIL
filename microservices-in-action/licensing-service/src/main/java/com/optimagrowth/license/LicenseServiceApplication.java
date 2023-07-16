@@ -62,4 +62,13 @@ public class LicenseServiceApplication {
         return template;
     }
 
+    @Bean
+    public JedisConnectionFactory jedisConnectionFactory() {
+        // 레디스 서버에 대한 DB 커넥션 설정
+        String hostName = serviceConfig.getRedisServer();
+        int port = Integer.parseInt(serviceConfig.getRedisPort());
+        RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration(hostName, port);
+
+        return new JedisConnectionFactory(redisStandaloneConfiguration);
+    }
 }
