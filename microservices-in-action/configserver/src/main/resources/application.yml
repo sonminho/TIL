@@ -8,6 +8,8 @@ spring:
       server:
         native:
           search-locations: classpath:/config # 파일시스템 컨피그 경로
+  kafka:
+    bootstrap-servers: http://localhost:9092
 
 server:
   port: 8071
